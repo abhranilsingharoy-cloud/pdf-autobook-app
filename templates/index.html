@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioFlow | Professional PDF Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo">🎧 AudioFlow</div>
+            <p>Convert your documents into immersive audiobooks instantly.</p>
+        </header>
+
+        <div class="card">
+            <form action="/" method="post" enctype="multipart/form-data" id="convertForm">
+                
+                <div class="upload-area">
+                    <input type="file" name="pdf_file" id="pdf_file" accept=".pdf" required>
+                    <label for="pdf_file">
+                        <span class="icon">📄</span>
+                        <span id="file-label">Click to upload PDF</span>
+                    </label>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label>Language</label>
+                        <select name="language">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Speed</label>
+                        <select name="speed">
+                            <option value="normal">Normal Speed</option>
+                            <option value="slow">Slow Speed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submitBtn">Generate Audiobook</button>
+            </form>
+
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>Processing... specific large files may take a minute.</p>
+            </div>
+
+            {% if error %}
+            <div class="alert error">
+                {{ error }}
+            </div>
+            {% endif %}
+        </div>
+
+        <footer>
+            <p>Powered by Python, PyMuPDF & gTTS</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple script to update filename and show loader
+        const fileInput = document.getElementById('pdf_file');
+        const fileLabel = document.getElementById('file-label');
+        const form = document.getElementById('convertForm');
+        const loading = document.getElementById('loading');
+        const btn = document.getElementById('submitBtn');
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) {
+                fileLabel.innerText = e.target.files[0].name;
+                fileLabel.style.fontWeight = "600";
+                fileLabel.style.color = "#4f46e5";
+            }
+        });
+
+        form.addEventListener('submit', () => {
+            loading.classList.remove('hidden');
+            btn.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
